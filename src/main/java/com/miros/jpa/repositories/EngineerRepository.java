@@ -19,10 +19,13 @@ public class EngineerRepository {
 			entityManager.getTransaction().begin();
 			entityManager.persist(engineer);
 			entityManager.getTransaction().commit();
+			System.out.println("ENG created!");
 			return Optional.of(engineer);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("ENG err!");
 		}
+		System.out.println("ENG err 2!");
 		return Optional.empty();
 	}
 
@@ -31,9 +34,15 @@ public class EngineerRepository {
 		return engineer != null ? Optional.of(engineer) : Optional.empty();
 	}
 
-	public List<Engineer> findAll() {
-		return entityManager.createQuery("from Engineer").getResultList();
+	public Optional<Engineer> findByName(String name) {
+		List<Engineer> result = entityManager.createNamedQuery("Engineer.findByName", Engineer.class)
+				.setParameter("name", name).getResultList();
+		return result.isEmpty() == false ? Optional.of(result.get(0)) : Optional.empty();
 	}
+
+//	public List<Engineer> findAll() {
+//		return entityManager.createQuery("from Engineer").getResultList();
+//	}
 
 	public void deleteById(Integer id) {
 		// Retrieve the engineer with this ID
@@ -44,17 +53,17 @@ public class EngineerRepository {
 				entityManager.getTransaction().begin();
 
 				// Remove all references to this engineer by AccessLevel
-				engineer.getAccessLevel().getEngineers().remove(engineer);
+//				engineer.getAccessLevel().getEngineers().remove(engineer);
 
 //				// Remove all references to this engineer by Orders
 //				engineer.getOrders().forEach(order -> {
 //					order.getEngineers().remove(engineer);
 //				});
 
-				// Remove all references to this engineer by Specialties
-				engineer.getSpecialties().forEach(specialty -> {
-					specialty.getEngineers().remove(engineer);
-				});
+//				// Remove all references to this engineer by Specialties
+//				engineer.getSpecialties().forEach(specialty -> {
+//					specialty.getEngineers().remove(engineer);
+//				});
 
 				// Now remove the engineer
 				entityManager.remove(engineer);

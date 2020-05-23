@@ -1,7 +1,5 @@
 package com.miros.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,27 +13,24 @@ public abstract class EmployeeAbstract {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_Managers")
-	private int ID;
+	private int id;
 
 	private String name;
 
-	@Enumerated
 	private AccessLevel accessLevel;
 
-	@Enumerated
 	private StatusEngineer status;
 
 	private String comment;
 
 	private String password;
 
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

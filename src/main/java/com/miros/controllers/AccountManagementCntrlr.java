@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.miros.entities.Engineer;
 import com.miros.entities.Manager;
+import com.miros.entities.attributes.AccessLevel;
 import com.miros.web.CreationForm;
 
 @Controller
@@ -23,6 +24,8 @@ public class AccountManagementCntrlr {
 			return "error";
 		}
 
+		System.out.println("AccountManag");
+
 		return "accountManagement";
 	}
 
@@ -34,6 +37,11 @@ public class AccountManagementCntrlr {
 	@ModelAttribute("engineer")
 	public Engineer getEngineer() {
 		return new Engineer();
+	}
+
+	@ModelAttribute("accessLevel")
+	public AccessLevel getAccessLevel() {
+		return new AccessLevel();
 	}
 
 }

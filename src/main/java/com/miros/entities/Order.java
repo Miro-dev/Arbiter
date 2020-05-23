@@ -3,43 +3,33 @@ package com.miros.entities;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import com.miros.entities.attributes.Materials;
 import com.miros.entities.attributes.ShipStyle;
 import com.miros.entities.attributes.StatusOrder;
 
-@Entity
+//@Entity
 public class Order {
 
-	@Id
-	@GeneratedValue
+//	@Id
+//	@GeneratedValue
 
-	private int ID;
+	private int id;
 
 	private String name;
 	private String origin;
-	@Enumerated
 	private ShipStyle shipStyle;
 	private Timestamp timeStamp;
 	private Timestamp dueDate;
-	@Enumerated
 	private Materials materials;
 	private String completionTime; // Change to hour:minute format
 	private int price;
-	@Enumerated
 	private StatusOrder status;
 	private int importance;
-	@ManyToOne
+//	@ManyToOne
 	private Engineer isWorkedBy;
-	@ManyToOne
+//	@ManyToOne
 	private Engineer isQueuedBy;
-	@OneToMany
+//	@OneToMany
 	private List<Materials> isWaitingFor;
 
 	public Order(String name, String origin, ShipStyle shipStyle, Timestamp timeStamp, Timestamp dueDate) {
@@ -157,6 +147,14 @@ public class Order {
 
 	public void setIsWaitingFor(List<Materials> isWaitingFor) {
 		this.isWaitingFor = isWaitingFor;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

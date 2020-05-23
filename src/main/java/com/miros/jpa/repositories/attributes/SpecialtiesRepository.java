@@ -1,6 +1,5 @@
 package com.miros.jpa.repositories.attributes;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -31,9 +30,9 @@ public class SpecialtiesRepository {
 		return specialty != null ? Optional.of(specialty) : Optional.empty();
 	}
 
-	public List<Specialty> findAll() {
-		return entityManager.createQuery("from Specialty").getResultList();
-	}
+//	public List<Specialty> findAll() {
+//		return entityManager.createQuery("from Specialty").getResultList();
+//	}
 
 	public void deleteById(Integer id) {
 		// Retrieve the movie with this ID
@@ -43,10 +42,10 @@ public class SpecialtiesRepository {
 				// Start a transaction because we're going to change the database
 				entityManager.getTransaction().begin();
 
-				// Remove all references to this superhero in its movies
-				specialty.getEngineers().forEach(movie -> {
-					movie.getSpecialties().remove(specialty);
-				});
+//				// Remove all references to this superhero in its movies
+//				specialty.getEngineers().forEach(movie -> {
+//					movie.getSpecialties().remove(specialty);
+//				});
 
 				// Now remove the superhero
 				entityManager.remove(specialty);

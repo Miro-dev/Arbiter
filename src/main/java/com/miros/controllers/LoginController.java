@@ -6,6 +6,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 // Fix for LoginController with database name and pass
 
+// Order Management System "Arbiter"
+// React, Spring, Hibernate, JPA, MVC
+
 @Controller
 public class LoginController {
 	@GetMapping(value = { "/", "/login" })

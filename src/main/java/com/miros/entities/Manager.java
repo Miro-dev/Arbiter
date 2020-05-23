@@ -1,26 +1,21 @@
 package com.miros.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-
 import com.miros.entities.attributes.AccessLevel;
 import com.miros.entities.attributes.StatusEngineer;
 
-@Entity
-@Table(name = "managers")
+//@Entity
+//@Table(name = "managers")
 public class Manager extends EmployeeAbstract {
 
 	private int ID;
 
-	@Column(name = "name")
+//	@Column(name = "name")
 	private String name;
 
-	@Enumerated
+//	@Enumerated
 	private AccessLevel accessLevel;
 
-	@Enumerated
+//	@Enumerated
 	private StatusEngineer status;
 
 	private String comment;
@@ -36,4 +31,61 @@ public class Manager extends EmployeeAbstract {
 		this.password = password;
 	}
 
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public AccessLevel getAccessLevel() {
+		return accessLevel;
+	}
+
+	@Override
+	public void setAccessLevel(AccessLevel accessLevel) {
+		this.accessLevel = accessLevel;
+	}
+
+	@Override
+	public StatusEngineer getStatus() {
+		return status;
+	}
+
+	@Override
+	public void setStatus(StatusEngineer status) {
+		this.status = status;
+	}
+
+	@Override
+	public String getComment() {
+		return comment;
+	}
+
+	@Override
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

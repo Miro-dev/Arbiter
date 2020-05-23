@@ -36,14 +36,13 @@
 							<h3 class="text-center text-info">Create Account</h3>
 							<div class="form-group"><form:label path="name"
 									class="text-info" for="credentials">Credentials:
-									 </form:label> <br> <form:input  path="name" type="text"
-									name="credentials" id="credentials" class="form-control" required='true' /></div>
+									 </form:label> <br> <form:input path="name" type="text"
+									name="credentials" id="credentials" class="form-control"
+									required='true' /></div>
 							<div class="form-group"><form:label path="password"
 									for="key" class="text-info">Key:</form:label> <br> <form:input
 									path="password" type="text" name="password" id="password"
-									class="form-control" required='true' /> <form:input path="accessLevel"
-									type="hidden" value="" name="accesslevel" id="accesslevel"
-									class="form-control" /></div>
+									class="form-control" required='true' /></div>
 							<div class="form-group">
 
 								<div class="btn-group btn-group-toggle" data-toggle="buttons"><label
@@ -57,13 +56,42 @@
 								formaction="createManager" id="submit-form-button"
 								formmethod="post" />
 							</div>
+							${responseFromDB_EmployeeCreation}
 						</form:form></div>
+
+					<div id="login-box" class="col-md-7"><form:form
+							id="create-form-accessLevel" class="form" formmethod="post"
+							action="/Arbiter/accountManagement/createAccessLevel"
+							modelAttribute="accessLevel">
+							<h3 class="text-center text-info">Create Access Level</h3>
+							<div class="form-group"><form:label path="name"
+									class="text-info" for="credentials-accessLevel">Name:
+									 </form:label> <br> <form:input path="name" type="text"
+									name="credentials-accessLevel" id="credentials-accessLevel"
+									class="form-control" required='true' /></div>
+							<input class="btn btn-dark" type="submit" value="Submit"
+								id="submit-form-button-accessLevel" />
+								${responseFromDB_AccessLevel} </form:form>
+
+						<form action="/Arbiter/accountManagement/deleteAccessLevel"
+						method="post">
+							<div class="form-group"><h3 class="text-center text-info">Delete
+									AccessLevel</h3> <input type="text" class="form-control"
+								name="deleteAccessLevel" placeholder="Enter name"></div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+							${responseFromDB_AccessLevel_Deletion}
+					</form></div>
+
+
+
 			</div>
+
 		</div>
 	</div>
 	</div>
+	</div>
 
-	<div class="container">
+	<!-- 	<div class="container">
 		<h1 class="text-center text-primary">Manager Tables</h1>
 		<div class="row">
 			<div class="col-md-6">
@@ -111,7 +139,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+	</div> -->
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -126,20 +154,19 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		$("#engineer").click(function() {
+		$("#engineer").click(
+				function() {
+					$("#submit-form-button").attr("formaction",
+							"/Arbiter/accountManagement/createEngineer");
+					$("#create-form").attr("modelAttribute", "engineer");
+				});
 
-			console.log("Logged");
-
-			$("#accesslevel").val("ENGINEER");
-			$("#submit-form-button").attr("formaction", "createEngineer");
-			$("#create-form").attr("modelAttribute", "engineer");
-		});
-
-		$("#manager").click(function() {
-			$("#accesslevel").val("MANAGER");
-			$("#submit-form-button").attr("formaction", "createManager");
-			$("#create-form").attr("modelAttribute", "manager");
-		});
+		$("#manager").click(
+				function() {
+					$("#submit-form-button").attr("formaction",
+							"/Arbiter/accountManagement/createManager");
+					$("#create-form").attr("modelAttribute", "manager");
+				});
 	</script>
 
 

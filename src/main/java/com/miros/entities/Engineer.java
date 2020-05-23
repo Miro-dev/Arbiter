@@ -1,41 +1,37 @@
 package com.miros.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.miros.entities.attributes.AccessLevel;
-import com.miros.entities.attributes.Specialty;
 
 @Entity
-@Table(name = "engineers")
+@Table(name = "engineer")
+@NamedQuery(name = "Engineer.findByName", query = "FROM Engineer WHERE name = :name")
 public class Engineer {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String password;
 	private String comment;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "access_level_id")
 	private AccessLevel accessLevel;
 
 //	@ManyToMany(mappedBy = "engineers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 //	private Set<Order> orders = new HashSet<>();
 
-	@ManyToMany(mappedBy = "engineers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	private Set<Specialty> specialties = new HashSet<>();
+//	@ManyToMany(mappedBy = "engineers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+//	private Set<Specialty> specialties = new HashSet<>();
 
 	public Engineer() {
 	}
@@ -65,30 +61,6 @@ public class Engineer {
 		this.name = name;
 	}
 
-	public AccessLevel getAccessLevel() {
-		return accessLevel;
-	}
-
-	public void setAccessLevel(AccessLevel accessLevel) {
-		this.accessLevel = accessLevel;
-	}
-
-//	public Set<Order> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(Set<Order> orders) {
-//		this.orders = orders;
-//	}
-
-	public Set<Specialty> getSpecialties() {
-		return specialties;
-	}
-
-	public void setSpecialties(Set<Specialty> specialties) {
-		this.specialties = specialties;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -103,6 +75,14 @@ public class Engineer {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public AccessLevel getAccessLevel() {
+		return accessLevel;
+	}
+
+	public void setAccessLevel(AccessLevel accessLevel) {
+		this.accessLevel = accessLevel;
 	}
 
 }

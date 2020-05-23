@@ -21,11 +21,10 @@
 		<h1 class="text-center text-primary">Admin Panel</h1>
 		<div class="row">
 			<div class="col-md-6">
-				<form method="get" action="">
-					<input class="btn btn-dark" type="submit" value="Logout"
-						formaction="login" /> <input class="btn btn-dark" type="submit"
-						value="AccountManagement" formaction="accountManagement" />
-				</form>
+				<form method="get" action=""><input class="btn btn-dark"
+					type="submit" value="Logout" formaction="login" /> <input
+					class="btn btn-dark" type="submit" value="AccountManagement"
+					formaction="accountManagement" /></form>
 		</div>
 	</div>
 

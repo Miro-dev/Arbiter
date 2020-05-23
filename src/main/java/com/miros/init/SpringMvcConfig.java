@@ -16,7 +16,7 @@ import com.miros.web.StaticHelpers;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.miros.controllers" })
+@ComponentScan(basePackages = "com.miros")
 public class SpringMvcConfig implements WebMvcConfigurer {
 
 	@Bean
@@ -57,24 +57,4 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
 		return new EntityManagerFactoryDAO();
 	}
-
-//	@Bean
-//	public Manager getManager() throws Exception {
-//
-//		{
-//			System.out.println("Manger Creation.");
-//		}
-//
-//		return new Manager();
-//	}
-//
-//	@Bean
-//	public Engineer getEngineer() throws Exception {
-//
-//		{
-//			System.out.println("Engineer Creation.");
-//		}
-//
-//		return new Engineer();
-//	}
 }
