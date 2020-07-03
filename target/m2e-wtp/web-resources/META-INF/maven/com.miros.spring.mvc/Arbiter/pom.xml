@@ -21,6 +21,43 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/antlr/antlr -->
+		<dependency>
+			<groupId>antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>2.7.7</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.3.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.2.4.RELEASE</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.2.4.RELEASE</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.2.4.RELEASE</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
 		<dependency>
 			<groupId>javax.annotation</groupId>
@@ -39,7 +76,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>5.2.6.RELEASE</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
@@ -140,42 +176,48 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>5.2.5.RELEASE</version>
-		</dependency>
+			</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>5.2.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>5.2.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>5.2.5.RELEASE</version>
 
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>5.2.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>5.2.5.RELEASE</version>
 		</dependency>
 
 	</dependencies>
+	
+<dependencyManagement>
+	<dependencies>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-framework-bom</artifactId>
+		<version>5.2.5.RELEASE</version>
+		<type>pom</type>
+		<scope>import</scope>
+	</dependency>
+	</dependencies>
+</dependencyManagement>
 
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>

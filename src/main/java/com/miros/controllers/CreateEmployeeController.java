@@ -1,8 +1,5 @@
 package com.miros.controllers;
 
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,67 +10,55 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.miros.DB.EntityManagerFactoryDAO;
 import com.miros.entities.Engineer;
-import com.miros.entities.Manager;
 import com.miros.entities.attributes.AccessLevel;
 import com.miros.jpa.repositories.EngineerRepository;
 import com.miros.jpa.repositories.attributes.AccessLevelRepository;
+import com.miros.security.EngineerDetailsService;
 
 @Controller
 public class CreateEmployeeController {
 
+//	@RequestMapping(value = "/accountManagement/createManager", method = RequestMethod.POST)
+//	public ModelAndView CreateManager(@Valid @ModelAttribute("manager") Manager manager) {
+//
+//		ModelAndView mv = new ModelAndView();
+//
+//		return mv;
+//	}
 	@Autowired
-	EntityManagerFactoryDAO emf;
+	EngineerRepository er;
+	@Autowired
+	AccessLevelRepository alr;
 
-	@RequestMapping(value = "/accountManagement/createManager", method = RequestMethod.POST)
-	public ModelAndView CreateManager(@Valid @ModelAttribute("manager") Manager manager) {
+	@Autowired
+	EngineerDetailsService eds;
 
-		ModelAndView mv = new ModelAndView();
-		EntityManager em = emf.getEntityManager();
-		em.getTransaction().begin();
-		em.persist(manager);
-		em.getTransaction().commit();
-
-		System.out.println("Mang: " + manager.getName() + " " + manager.getPassword() + " " + manager.getAccessLevel());
-
-		return mv;
-	}
-
-	@RequestMapping(value = "/accountManagement/createEngineer", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/accountManagement/createEngineer", method = RequestMethod.POST)
 	public ModelAndView CreateEngineer(@Valid @ModelAttribute("engineer") Engineer engineer) {
 
 		ModelAndView mv = new ModelAndView();
-		EntityManager em = emf.getEntityManager();
-		EngineerRepository er = new EngineerRepository(em);
-		AccessLevelRepository alr = new AccessLevelRepository(em);
 
-		if (er.findByName(engineer.getName()).isPresent() == false) {
-			AccessLevel accessLevel = alr.findByName("Engineer").get(); // Fix to show all accessLevels
-			accessLevel.addEngineers(engineer);
-			engineer.setAccessLevel(accessLevel);
-			er.save(engineer);
-			mv.addObject("responseFromDB_EmployeeCreation", "Engineer with name: " + engineer.getName() + " Created!");
-		} else {
-			mv.addObject("responseFromDB_EmployeeCreation", "Engineer with name: " + engineer.getName() + " Exists!");
-		}
+		mv.addObject("responseFromDB_EmployeeCreation", eds.registerNewUserAccount(engineer));
 		mv.setViewName("accountManagement");
+		// Fix URLs after you create Eng and than click to ManagerPanel
+		return mv;
+	}
+
+	@RequestMapping(value = "/accountManagement/deleteEmployee", method = RequestMethod.POST)
+	public ModelAndView DeleteEmployee(@RequestParam("employeeName") String employeeName) {
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("responseFromDB_EmployeeCreation", er.deleteByName(employeeName));
 		return mv;
 	}
 
 	@RequestMapping(value = "/accountManagement/createAccessLevel", method = RequestMethod.POST)
 	public ModelAndView CreateAccessLevel(@Valid @ModelAttribute("accessLevel") AccessLevel accessLevel) {
-		EntityManager em = emf.getEntityManager();
-		AccessLevelRepository alr = new AccessLevelRepository(em);
 		ModelAndView mv = new ModelAndView();
+		AccessLevelRepository alr = new AccessLevelRepository();
 
-		if (alr.findByName(accessLevel.getName()).isPresent() == false) {
-			alr.save(accessLevel);
-			mv.addObject("responseFromDB_AccessLevel",
-					"Access Level with name: " + accessLevel.getName() + " created!");
-		} else {
-			mv.addObject("responseFromDB_AccessLevel", "Access Level Already Exists!");
-		}
+		alr.save(accessLevel);
 
 		mv.setViewName("accountManagement");
 		return mv;
@@ -82,21 +67,10 @@ public class CreateEmployeeController {
 	@RequestMapping(value = "/accountManagement/deleteAccessLevel", method = RequestMethod.POST)
 	public ModelAndView DeleteAccessLevel(@RequestParam("deleteAccessLevel") String accessLevelName) {
 
-		System.out.println(accessLevelName);
-		EntityManager em = emf.getEntityManager();
-		AccessLevelRepository alr = new AccessLevelRepository(em);
-		EngineerRepository er = new EngineerRepository(em);
 		ModelAndView mv = new ModelAndView();
-		Optional<AccessLevel> accessLevelToDelete = alr.findByName(accessLevelName);
+		AccessLevelRepository alr = new AccessLevelRepository();
 
-		if (accessLevelToDelete.isPresent() == true) {
-			alr.deleteByName(accessLevelToDelete.get(), er);
-			mv.addObject("responseFromDB_AccessLevel_Deletion",
-					"Access Level with name: " + accessLevelName + " Deleted!");
-		} else {
-			mv.addObject("responseFromDB_AccessLevel_Deletion", "Access Level does not Exist!");
-		}
-
+		mv.addObject("responseFromDB_AccessLevel", alr.deleteByName(accessLevelName));
 		mv.setViewName("accountManagement");
 		return mv;
 	}

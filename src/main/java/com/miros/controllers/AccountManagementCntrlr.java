@@ -1,7 +1,9 @@
 package com.miros.controllers;
 
+import javax.persistence.EntityManagerFactory;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,14 +19,15 @@ import com.miros.web.CreationForm;
 @ControllerAdvice
 public class AccountManagementCntrlr {
 
-	@RequestMapping(value = "/accountManagement")
+	@Autowired
+	private EntityManagerFactory emf;
+
+	@RequestMapping(value = "/admin/accountManagement")
 	public String AccountManagement(@Valid @ModelAttribute("creationForm") CreationForm creationForm,
 			BindingResult result) {
 		if (result.hasErrors()) {
 			return "error";
 		}
-
-		System.out.println("AccountManag");
 
 		return "accountManagement";
 	}

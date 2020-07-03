@@ -6,7 +6,8 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		System.out.println("SecurityConfig");
+		return new Class[] { SecurityConfig.class };
 	}
 
 	@Override
@@ -14,7 +15,7 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
 
 		System.out.println("ServletConfig");
 
-		return new Class<?>[] { SpringMvcConfig.class };
+		return new Class<?>[] { SpringMVCConfig.class };
 	}
 
 	@Override

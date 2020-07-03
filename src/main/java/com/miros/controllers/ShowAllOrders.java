@@ -1,6 +1,7 @@
 package com.miros.controllers;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,18 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.miros.DB.EntityManagerFactoryDAO;
-
 @Controller
 public class ShowAllOrders {
 
 	@Autowired
-	EntityManagerFactoryDAO emf;
+	EntityManagerFactory emf;
 
 	@RequestMapping(value = "showOrders", method = RequestMethod.GET)
 	public ModelAndView createOrder() throws Exception {
 
-		EntityManager em = emf.getEntityManager();
+		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
 //		em.remove(eng);

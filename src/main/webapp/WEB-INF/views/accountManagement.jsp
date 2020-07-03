@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
@@ -22,44 +23,57 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-					<form method="get" action=""><input class="btn btn-dark"
-						type="submit" value="Logout" formaction="login" /> <input
-						class="btn btn-dark" type="submit" value="Manager Panel"
-						formaction="managerPanel" formmethod="post" /></form>
+					<form method="get" action="">
+						<input class="btn btn-dark" type="submit" value="Logout"
+							formaction="login" />
+						<input class="btn btn-dark" type="submit" value="Manager Panel"
+							formaction="/Arbiter/managerPanel" formmethod="post" />
+					</form>
+				</div>
 			</div>
-		</div>
 			<div id="login-row"
-			class="row justify-content-center align-items-center">
+				class="row justify-content-center align-items-center">
 				<div id="login-column" class="col-sm-7">
-					<div id="login-box" class="col-md-7"><form:form
-							id="create-form" class="form" modelAttribute="manager">
+					<div id="login-box" class="col-md-7">
+						<form:form id="create-form" class="form" modelAttribute="manager">
 							<h3 class="text-center text-info">Create Account</h3>
-							<div class="form-group"><form:label path="name"
-									class="text-info" for="credentials">Credentials:
-									 </form:label> <br> <form:input path="name" type="text"
-									name="credentials" id="credentials" class="form-control"
-									required='true' /></div>
-							<div class="form-group"><form:label path="password"
-									for="key" class="text-info">Key:</form:label> <br> <form:input
-									path="password" type="text" name="password" id="password"
-									class="form-control" required='true' /></div>
+							<div class="form-group">
+								<form:label path="name" class="text-info" for="credentials">Credentials:
+									 </form:label>
+								<br>
+								<form:input path="name" type="text" name="credentials"
+									id="credentials" class="form-control" required='true' />
+							</div>
+							<div class="form-group">
+								<form:label path="password" for="key" class="text-info">Key:</form:label>
+								<br>
+								<form:input path="password" type="text" name="password"
+									id="password" class="form-control" required='true' />
+							</div>
 							<div class="form-group">
 
-								<div class="btn-group btn-group-toggle" data-toggle="buttons"><label
-									class="btn btn-secondary active" id="engineer"> <input
-										type="radio" name="options" id="option1" autocomplete="off"
-										checked> Engineer
-								</label> <label class="btn btn-secondary" id="manager"> <input
-										type="radio" name="options" id="option2" autocomplete="off">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<label class="btn btn-secondary active" id="engineer">
+										<input type="radio" name="options" id="option1"
+											autocomplete="off" checked>
+										Engineer
+									</label>
+									<label class="btn btn-secondary" id="manager">
+										<input type="radio" name="options" id="option2"
+											autocomplete="off">
 										Manager
-								</label></div> <input class="btn btn-dark" type="submit" value="Submit"
-								formaction="createManager" id="submit-form-button"
-								formmethod="post" />
+									</label>
+								</div>
+								<input class="btn btn-dark" type="submit" value="Submit"
+									formaction="createManager" id="submit-form-button"
+									formmethod="post" />
 							</div>
-							${responseFromDB_EmployeeCreation}
-						</form:form></div>
+							<div class="alert alert-primary" role="alert">
+								${responseFromDB_EmployeeCreation}</div>
 
-					<div id="login-box" class="col-md-7"><form:form
+						</form:form>
+					</div>
+					<%-- 					<div id="login-box" class="col-md-7"><form:form
 							id="create-form-accessLevel" class="form" formmethod="post"
 							action="/Arbiter/accountManagement/createAccessLevel"
 							modelAttribute="accessLevel">
@@ -80,14 +94,29 @@
 								name="deleteAccessLevel" placeholder="Enter name"></div>
 							<button type="submit" class="btn btn-primary">Submit</button>
 							${responseFromDB_AccessLevel_Deletion}
-					</form></div>
+					</form></div> --%>
 
+				</div>
 
+			</div>
+
+			<div id="login-row"
+				class="row justify-content-center align-items-center">
+				<div id="login-column" class="col-sm-7">
+					<div id="login-box" class="col-md-7">
+						<form action="/" method="post">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Credentials</label>
+								<input type="text" class="form-control" id="name" placeholder="Enter username">
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
 
 			</div>
 
 		</div>
-	</div>
 	</div>
 	</div>
 
@@ -157,14 +186,14 @@
 		$("#engineer").click(
 				function() {
 					$("#submit-form-button").attr("formaction",
-							"/Arbiter/accountManagement/createEngineer");
+							"accountManagement/createEngineer"); /* Takes literal URL */
 					$("#create-form").attr("modelAttribute", "engineer");
 				});
 
 		$("#manager").click(
 				function() {
 					$("#submit-form-button").attr("formaction",
-							"/Arbiter/accountManagement/createManager");
+							"accountManagement/createManager"); /* Takes from base URL */
 					$("#create-form").attr("modelAttribute", "manager");
 				});
 	</script>

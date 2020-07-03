@@ -4,34 +4,53 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.miros.entities.Engineer;
+import com.miros.entities.attributes.AccessLevel;
+import com.miros.jpa.repositories.attributes.AccessLevelRepository;
 
+@Repository
 public class EngineerRepository {
+
+	@Autowired
+	private EntityManagerFactory emf;
+
+	@Autowired
+	private AccessLevelRepository accessLevelRepository;
+
 	private EntityManager entityManager;
 
-	public EngineerRepository(EntityManager entityManager) {
-		this.entityManager = entityManager;
+	public EngineerRepository() {
+		System.out.println("EngRepo Created!");
+		System.out.println(emf);
 	}
 
-	public Optional<Engineer> save(Engineer engineer) {
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.persist(engineer);
-			entityManager.getTransaction().commit();
-			System.out.println("ENG created!");
-			return Optional.of(engineer);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("ENG err!");
+	public String save(Engineer engineer) {
+		entityManager = emf.createEntityManager();
+		System.out.println(entityManager);
+
+		// Check if engineer with this name exists
+		String engineerName = engineer.getName();
+		Optional<Engineer> check = findByName(engineerName);
+		if (check.isPresent() == false) {
+			try {
+				AccessLevel accessLevel = accessLevelRepository.findByName("Engineer").get();
+				engineer.setAccessLevel(accessLevel);
+				entityManager.getTransaction().begin();
+				entityManager.persist(engineer);
+				entityManager.getTransaction().commit();
+				return "Employee with name: " + engineerName + " was Created!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "Could not make transaction!";
+			}
+		} else {
+			return "Employee with name: " + engineerName + " does already Exists!";
 		}
-		System.out.println("ENG err 2!");
-		return Optional.empty();
-	}
-
-	public Optional<Engineer> findById(Integer id) {
-		Engineer engineer = entityManager.find(Engineer.class, id);
-		return engineer != null ? Optional.of(engineer) : Optional.empty();
 	}
 
 	public Optional<Engineer> findByName(String name) {
@@ -40,39 +59,24 @@ public class EngineerRepository {
 		return result.isEmpty() == false ? Optional.of(result.get(0)) : Optional.empty();
 	}
 
-//	public List<Engineer> findAll() {
-//		return entityManager.createQuery("from Engineer").getResultList();
-//	}
+	public String deleteByName(String nameToDelete) {
 
-	public void deleteById(Integer id) {
-		// Retrieve the engineer with this ID
-		Engineer engineer = entityManager.find(Engineer.class, id);
-		if (engineer != null) {
+		// Check if engineer with this name exists
+		Optional<Engineer> employeeToDelete = findByName(nameToDelete);
+		if (employeeToDelete.isPresent() == true) {
 			try {
-				// Start a transaction because we're going to change the database
+
 				entityManager.getTransaction().begin();
-
-				// Remove all references to this engineer by AccessLevel
-//				engineer.getAccessLevel().getEngineers().remove(engineer);
-
-//				// Remove all references to this engineer by Orders
-//				engineer.getOrders().forEach(order -> {
-//					order.getEngineers().remove(engineer);
-//				});
-
-//				// Remove all references to this engineer by Specialties
-//				engineer.getSpecialties().forEach(specialty -> {
-//					specialty.getEngineers().remove(engineer);
-//				});
-
-				// Now remove the engineer
-				entityManager.remove(engineer);
-
-				// Commit the transaction
+				entityManager.remove(employeeToDelete.get());
 				entityManager.getTransaction().commit();
+
+				return "Employee with name: " + nameToDelete + " was deleted!";
 			} catch (Exception e) {
 				e.printStackTrace();
+				return "Could not make transaction!";
 			}
+		} else {
+			return "Employee with name: " + nameToDelete + " does not exist!";
 		}
 	}
 }

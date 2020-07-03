@@ -4,109 +4,72 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.miros.entities.attributes.AccessLevel;
-import com.miros.jpa.repositories.EngineerRepository;
 
+@Repository
 public class AccessLevelRepository {
+	@Autowired
+	EntityManagerFactory emf;
+
 	private EntityManager entityManager;
 
-	public AccessLevelRepository(EntityManager entityManager) {
-		this.entityManager = entityManager;
+	public AccessLevelRepository() {
 	}
 
-	public Optional<AccessLevel> save(AccessLevel accessLevel) {
-		try {
-			entityManager.getTransaction().begin();
-			entityManager.persist(accessLevel);
-			entityManager.getTransaction().commit();
-			System.out.println("AC created!");
-			return Optional.of(accessLevel);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("AC Error on creation");
+	public String save(AccessLevel accessLevel) {
+		entityManager = emf.createEntityManager();
+		// Check if engineer with this name exists
+		String accessLevelName = accessLevel.getName();
+		Optional<AccessLevel> check = findByName(accessLevelName);
+		if (check.isPresent() == false) {
+			try {
+				entityManager.getTransaction().begin();
+				entityManager.persist(accessLevel);
+				entityManager.getTransaction().commit();
+				return "AccessLevel with name: " + accessLevelName + " was Created!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "Could not make transaction!";
+			}
+		} else {
+			return "AccessLevel with name: " + accessLevelName + " does already Exists!";
 		}
-		System.out.println("AC not created");
-		return Optional.empty();
-	}
-
-	public Optional<AccessLevel> findById(Integer id) {
-		AccessLevel accessLevel = entityManager.find(AccessLevel.class, id);
-		return accessLevel != null ? Optional.of(accessLevel) : Optional.empty();
 	}
 
 	public Optional<AccessLevel> findByName(String name) {
+		entityManager = emf.createEntityManager();
 		List<AccessLevel> result = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class)
 				.setParameter("name", name).getResultList();
 		return result.isEmpty() == false ? Optional.of(result.get(0)) : Optional.empty();
 	}
 
-	public void deleteByName(AccessLevel accessLevel, EngineerRepository engineerRepository) {
-		try {
-			// Start a transaction because we're going to change the database
-			entityManager.getTransaction().begin();
-
-			// Remove all references to this accessLevel in its engineers
-			accessLevel.getEngineers().forEach(engineer -> {
-				System.out.println("In deleteByName AL");
-				engineer.setAccessLevel(findByName("Undefined").get());
-				System.out.println("In deleteByName AL 2");
-				engineerRepository.save(engineer);
-				System.out.println("In deleteByName AL 3");
-			});
-
-//				// Remove all references to this accessLevel in its managers
-//				accessLevel.getManagers().forEach(manager -> {
-//					manager.setAccessLevel(new AccessLevel("Undefined AccessLevel"));
-//				});
-
-			// Now remove the accessLevel
-			entityManager.remove(accessLevel);
-
-			// Commit the transaction
-			entityManager.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-//	public Optional<AccessLevel> findByName(String name) {
-//		AccessLevel accessLevel = entityManager.createNamedQuery("AccessLevel.findByName", AccessLevel.class)
-//				.setParameter("name", name).getSingleResult();
-//		System.out.println("In findByname");
-//		return accessLevel != null ? Optional.of(accessLevel) : Optional.empty();
-//	}
-
-//	public List<AccessLevel> findAll() {
-//		return entityManager.createQuery("from AccessLevel").getResultList();
-//	}
-
-	public void deleteById(Integer id) {
-		// Retrieve the accessLevel with this ID
-		AccessLevel accessLevel = entityManager.find(AccessLevel.class, id);
-		if (accessLevel != null) {
+	public String deleteByName(String accessLevelToDeleteName) {
+		entityManager = emf.createEntityManager();
+		// Check if accessLevel with this name exists
+		Optional<AccessLevel> accessLevelToDelete = findByName(accessLevelToDeleteName);
+		if (accessLevelToDelete.isPresent() == true) {
 			try {
-				// Start a transaction because we're going to change the database
 				entityManager.getTransaction().begin();
-
-				// Remove all references to this accessLevel in its engineers
-				accessLevel.getEngineers().forEach(engineer -> {
-					engineer.setAccessLevel(new AccessLevel("Undefined AccessLevel"));
-				});
-
-//				// Remove all references to this accessLevel in its managers
-//				accessLevel.getManagers().forEach(manager -> {
-//					manager.setAccessLevel(new AccessLevel("Undefined AccessLevel"));
-//				});
-
-				// Now remove the accessLevel
-				entityManager.remove(accessLevel);
-
-				// Commit the transaction
+				entityManager.remove(accessLevelToDelete.get());
 				entityManager.getTransaction().commit();
+
+				return "Employee with name: " + accessLevelToDeleteName + " was deleted!";
 			} catch (Exception e) {
 				e.printStackTrace();
+				return "Could not make transaction!";
 			}
+		} else {
+			return "Employee with name: " + accessLevelToDeleteName + " does not exist!";
 		}
 	}
 }
+
+//accessLevel.getEngineers().forEach(engineer -> {
+//	engineer.setAccessLevel(findByName("Undefined").get());
+//	engineerRepository.save(engineer);
+//});
