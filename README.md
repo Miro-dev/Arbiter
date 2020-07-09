@@ -10,5 +10,4 @@ Java, Spring [MVC, JPA (Hibernate), Security](Annotation based), JSP, MySQL, Git
 Future plans:
 1. Migrating to IDE InteliJ 
 2. Finishing Security, Components volume, Fleshing out Interfaces (orders, workers, components, times, prices, order processess), Database Modelling
-3. Integrating Testing, Documentation, Docker on AWS deployment
-4. Migrating to Postgre
+3. Integrating Testing, Documentation, Docker on AWS deployment, React and Migrating to Postgre
