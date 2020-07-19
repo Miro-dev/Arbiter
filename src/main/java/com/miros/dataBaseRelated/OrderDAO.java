@@ -1,4 +1,4 @@
-package com.miros.DB;
+package com.miros.dataBaseRelated;
 
 public class OrderDAO {
 //

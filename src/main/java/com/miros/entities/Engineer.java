@@ -18,10 +18,12 @@ public class Engineer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer id_engineers;
 	private String name;
 	private String password;
 	private String comment;
+	private String roles;
+	private Boolean active;
 
 	@ManyToOne
 	@JoinColumn(name = "access_level_id")
@@ -33,11 +35,28 @@ public class Engineer {
 //	@ManyToMany(mappedBy = "engineers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 //	private Set<Specialty> specialties = new HashSet<>();
 
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
 	public Engineer() {
 	}
 
 	public Engineer(Integer id, String name) {
-		this.id = id;
+		this.id_engineers = id;
 		this.name = name;
 	}
 
@@ -46,11 +65,11 @@ public class Engineer {
 	}
 
 	public Integer getId() {
-		return id;
+		return id_engineers;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.id_engineers = id;
 	}
 
 	public String getName() {

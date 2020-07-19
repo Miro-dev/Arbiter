@@ -1,4 +1,4 @@
-package com.miros.controllers;
+package com.miros.controllers.admin;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

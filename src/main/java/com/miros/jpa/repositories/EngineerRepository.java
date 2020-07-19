@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.miros.entities.Engineer;
@@ -54,9 +55,12 @@ public class EngineerRepository {
 	}
 
 	public Optional<Engineer> findByName(String name) {
+		System.out.println("This is from repo Eng");
 		List<Engineer> result = entityManager.createNamedQuery("Engineer.findByName", Engineer.class)
 				.setParameter("name", name).getResultList();
-		return result.isEmpty() == false ? Optional.of(result.get(0)) : Optional.empty();
+		System.out.println("This is from repo Eng: " + result.get(0));
+		return Optional.of(result.get(0));
+//		return result.isEmpty() == false ? Optional.of(result.get(0)) : Optional.empty();
 	}
 
 	public String deleteByName(String nameToDelete) {
