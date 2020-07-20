@@ -1,7 +1,9 @@
 package com.miros.init;
 
+import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
@@ -30,7 +32,6 @@ import com.miros.web.StaticHelpers;
 
 @Configuration
 @EnableWebMvc
-@EnableJpaRepositories(basePackages = "com.miros")
 @ComponentScan(basePackages = "com.miros")
 @EnableTransactionManagement
 public class SpringMVCConfig implements WebMvcConfigurer {
@@ -47,22 +48,25 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "com.miros" });
+	public EntityManagerFactory entityManagerFactory() throws SQLException {
+		LocalContainerEntityManagerFactoryBean lcemf = new LocalContainerEntityManagerFactoryBean();
+		lcemf.setDataSource(dataSource());
+		lcemf.setPackagesToScan(new String[] { "com.miros" });
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		em.setJpaVendorAdapter(vendorAdapter);
-		em.setJpaProperties(additionalProperties());
+		lcemf.setJpaVendorAdapter(vendorAdapter);
+		lcemf.setJpaProperties(additionalProperties());
+		lcemf.afterPropertiesSet();
 
-		return em;
+		System.out.println("LCEMF: " + lcemf);
+
+		return lcemf.getObject();
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager() {
+	public PlatformTransactionManager transactionManager() throws SQLException {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+		transactionManager.setEntityManagerFactory(entityManagerFactory());
 
 		return transactionManager;
 	}
@@ -73,6 +77,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 	}
 
 	Properties additionalProperties() {
+		System.out.println("Addition ");
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("show_sql", "true");

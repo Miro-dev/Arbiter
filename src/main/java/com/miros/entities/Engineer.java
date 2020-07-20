@@ -25,9 +25,9 @@ public class Engineer {
 	private String roles;
 	private Boolean active;
 
-	@ManyToOne
-	@JoinColumn(name = "access_level_id")
-	private AccessLevel accessLevel;
+//	@ManyToOne
+//	@JoinColumn(name = "access_level_id")
+//	private AccessLevel accessLevel;
 
 //	@ManyToMany(mappedBy = "engineers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 //	private Set<Order> orders = new HashSet<>();
@@ -96,12 +96,12 @@ public class Engineer {
 		this.comment = comment;
 	}
 
-	public AccessLevel getAccessLevel() {
-		return accessLevel;
-	}
-
-	public void setAccessLevel(AccessLevel accessLevel) {
-		this.accessLevel = accessLevel;
-	}
+//	public AccessLevel getAccessLevel() {
+//		return accessLevel;
+//	}
+//
+//	public void setAccessLevel(AccessLevel accessLevel) {
+//		this.accessLevel = accessLevel;
+//	}
 
 }

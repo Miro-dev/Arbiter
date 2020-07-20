@@ -5,42 +5,52 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.miros.entities.Engineer;
 import com.miros.entities.attributes.AccessLevel;
 import com.miros.jpa.repositories.attributes.AccessLevelRepository;
+import org.springframework.stereotype.Service;
+
+//@Service
+//public interface EngineerRepository extends JpaRepository<Engineer, Integer> {
+//    Optional<Engineer> findByUserName(String userName);
+//}
 
 @Repository
 public class EngineerRepository {
 
-	@Autowired
-	private EntityManagerFactory emf;
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	@PersistenceUnit
+	private EntityManagerFactory entityManagerFactory;
 
 	@Autowired
 	private AccessLevelRepository accessLevelRepository;
 
-	private EntityManager entityManager;
-
 	public EngineerRepository() {
 		System.out.println("EngRepo Created!");
-		System.out.println(emf);
+		System.out.println(entityManagerFactory);
 	}
 
 	public String save(Engineer engineer) {
-		entityManager = emf.createEntityManager();
+		entityManager = entityManagerFactory.createEntityManager();
 		System.out.println(entityManager);
 
 		// Check if engineer with this name exists
 		String engineerName = engineer.getName();
 		Optional<Engineer> check = findByName(engineerName);
-		if (check.isPresent() == false) {
+		if (!check.isPresent()) {
 			try {
 				AccessLevel accessLevel = accessLevelRepository.findByName("Engineer").get();
-				engineer.setAccessLevel(accessLevel);
+//				engineer.setAccessLevel(accessLevel);
 				entityManager.getTransaction().begin();
 				entityManager.persist(engineer);
 				entityManager.getTransaction().commit();
@@ -55,7 +65,7 @@ public class EngineerRepository {
 	}
 
 	public Optional<Engineer> findByName(String name) {
-		System.out.println("This is from repo Eng");
+		System.out.println("This is from repo Eng + " + entityManager);
 		List<Engineer> result = entityManager.createNamedQuery("Engineer.findByName", Engineer.class)
 				.setParameter("name", name).getResultList();
 		System.out.println("This is from repo Eng: " + result.get(0));
@@ -67,7 +77,7 @@ public class EngineerRepository {
 
 		// Check if engineer with this name exists
 		Optional<Engineer> employeeToDelete = findByName(nameToDelete);
-		if (employeeToDelete.isPresent() == true) {
+		if (employeeToDelete.isPresent()) {
 			try {
 
 				entityManager.getTransaction().begin();

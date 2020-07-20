@@ -27,8 +27,8 @@ public class AccessLevel {
 //	@OneToMany(mappedBy = "accessLevel")
 //	private List<Manager> managers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "accessLevel", cascade = CascadeType.PERSIST)
-	private List<Engineer> engineers = new ArrayList<>();
+//	@OneToMany(mappedBy = "accessLevel", cascade = CascadeType.PERSIST)
+//	private List<Engineer> engineers = new ArrayList<>();
 
 	// Make for Manager
 
@@ -55,15 +55,15 @@ public class AccessLevel {
 		this.name = name;
 	}
 
-	public List<Engineer> getEngineers() {
-		System.out.println("Returns Eng list!");
-		return engineers;
-	}
+//	public List<Engineer> getEngineers() {
+//		System.out.println("Returns Eng list!");
+//		return engineers;
+//	}
 
-	public void addEngineers(Engineer engineer) {
-		System.out.println("Adds to Eng list!");
-		engineers.add(engineer);
-		engineer.setAccessLevel(this);
-	}
+//	public void addEngineers(Engineer engineer) {
+//		System.out.println("Adds to Eng list!");
+//		engineers.add(engineer);
+//		engineer.setAccessLevel(this);
+//	}
 
 }

@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import com.miros.entities.Engineer;
 import com.miros.entities.attributes.AccessLevel;
 import com.miros.jpa.repositories.EngineerRepository;
-
-// We will retrieve a User - not an AccessLevel entity like Engineer or 
-
-@Service
+@Service("userDetailsService")
 public class EngineerDetailsService implements UserDetailsService {
 
 	@Autowired
@@ -31,19 +28,22 @@ public class EngineerDetailsService implements UserDetailsService {
 			return "User Exists";
 		} else {
 			engineer.setPassword(passwordEncoder.encode(engineer.getPassword()));
-			engineer.setAccessLevel(new AccessLevel("ENGINEER"));
+//			engineer.setAccessLevel(new AccessLevel("ENGINEER"));
 			er.save(engineer);
 			return MessageFormat.format("User with name: {0} was created!", engName);
 		}
 	}
 
+
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Engineer> engineer = er.findByName(username);
-		if (engineer.isPresent() == false) {
-			throw new UsernameNotFoundException("No user.");
-		} else {
-			return new EngineerDetails(engineer.get());
-		}
+	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+
+		System.out.println(name);
+
+		Optional<Engineer> eng = er.findByName(name);
+
+		eng.orElseThrow(() -> new UsernameNotFoundException("User Not Found!"));
+
+		return eng.map(EngineerDetails::new).get();
 	}
 }
