@@ -33,6 +33,7 @@ import com.miros.web.StaticHelpers;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.miros")
+@EnableJpaRepositories(basePackages = "com.miros")
 @EnableTransactionManagement
 public class SpringMVCConfig implements WebMvcConfigurer {
 
@@ -79,7 +80,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 	Properties additionalProperties() {
 		System.out.println("Addition ");
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 		properties.setProperty("show_sql", "true");
 		properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
 		properties.setProperty("hibernate.format_sql", "true");

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class EngineerPanel {
 
-    @RequestMapping(value = "/engineer/engineerPanel")
+    @RequestMapping(value = "/epanel")
     public ModelAndView engineerPanel() throws Exception {
 
         ModelAndView mv = new ModelAndView();

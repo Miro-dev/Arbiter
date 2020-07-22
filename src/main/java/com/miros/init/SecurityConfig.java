@@ -1,5 +1,6 @@
 package com.miros.init;
 
+import com.miros.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,11 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @ComponentScan(basePackages = "com.miros")
 @EnableWebSecurity
+@EnableJpaRepositories(basePackages = "com.miros")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -27,16 +28,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 	protected void configure(HttpSecurity http) throws Exception {
-	    http.authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/engineer/engineerPanel").hasAnyRole("USER", "ADMIN")
+        http.authorizeRequests()
+                .antMatchers("/epanel").hasAnyRole("ENGINEER", "ADMIN")
+                .antMatchers("/apanel").hasRole("ADMIN")
                 .antMatchers("/").permitAll()
                 .and().formLogin();
-	}
+    }
 
 	@Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public NoOpPasswordEncoder getPasswordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 }
 

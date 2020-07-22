@@ -49,33 +49,7 @@
 </head>
 <body>
 
-<c:url value="/login" var="loginUrl"/>
-<form action="${loginUrl}" method="post">       
-	<c:if test="${param.error != null}">        
-		<p>
-			Invalid username and password.
-		</p>
-	</c:if>
-	<c:if test="${param.logout != null}">       
-		<p>
-			You have been logged out.
-		</p>
-	</c:if>
-	<p>
-		<label for="username">Username</label>
-		<input type="text" id="username" name="username"/>	
-	</p>
-	<p>
-		<label for="password">Password</label>
-		<input type="password" id="password" name="password"/>	
-	</p>
-	<input type="hidden"                        
-		name="${_csrf.parameterName}"
-		value="${_csrf.token}"/>
-	<button type="submit" class="btn">Log in</button>
-</form>
-
-<%-- 	<div id="login">
+<div id="login">
 		<h3 class="text-center text-white pt-5">Login form</h3>
 		<div class="container">
 			<div id="login-row"
@@ -117,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-	</div> --%>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

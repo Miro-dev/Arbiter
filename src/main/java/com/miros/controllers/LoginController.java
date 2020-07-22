@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
-	@GetMapping(value = { "/", "/login" })
+	@GetMapping(value = { "/login" })
 	public ModelAndView login() throws Exception {
 
 		ModelAndView mv = new ModelAndView();
@@ -25,7 +25,7 @@ public class LoginController {
 	}
 
 	// Spring security will see this message.
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 
