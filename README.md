@@ -12,7 +12,7 @@ Future plans:
 2. Near future: 
    Establishing some authorisation & authhentication - Spirng Security ✔
    Components volume
-   Fleshing out Interfaces /n
+   Fleshing out Interfaces
       orders
       workers
       components
