@@ -11,6 +11,7 @@ Future plans:
 1. Migrating to IDE IntelliJ ✔  
 2. Near future:  
    Establishing some authorisation & authhentication - Spirng Security ✔  
+   React ✔  
    Components volume  
    Fleshing out Interfaces  
       orders  
@@ -20,4 +21,4 @@ Future plans:
       prices  
       order processess  
    Database Modelling  
-3. Integrating Testing, Documentation, Docker on AWS deployment, React and Migrating to Postgre
+3. Integrating Testing, Documentation, Docker on AWS deployment and Migrating to Postgre
