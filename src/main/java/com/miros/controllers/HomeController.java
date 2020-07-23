@@ -1,24 +1,32 @@
 package com.miros.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
+@RequestMapping("react")
+@CrossOrigin("*")
 public class HomeController {
 
-    @RequestMapping(value = "/")
-    public ModelAndView createOrder(HttpServletRequest request) throws Exception {
+    @GetMapping
+    public String createOrder()  {
+//    public ModelAndView createOrder(HttpServletRequest request) throws Exception {
 
-        ModelAndView mv = new ModelAndView();
+//        ModelAndView mv = new ModelAndView();
+//
+//        mv.setViewName("home");
+//
+//        System.out.println(request.getRemoteUser());
+//
+//        return mv;
 
-        mv.setViewName("home");
-
-        System.out.println(request.getRemoteUser());
-
-        return mv;
+        return "Hello from Java!";
     }
 
 }
